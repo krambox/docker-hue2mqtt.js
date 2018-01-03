@@ -30,3 +30,9 @@ For some reason `Ctrl-C` is not working, workaround with named container:
 ### Manually build
 	
 	docker build -t username/hue2mqtt.js .
+
+	docker build -t hue2mqtt .
+
+### Manually run
+
+  docker run --rm --env-file hue2mqtt.env -it --name=hue2mqtt.js hue2mqtt

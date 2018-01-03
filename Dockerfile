@@ -1,5 +1,22 @@
-FROM node:slim
+ 
+#
+# ---- Build ----
+FROM mhart/alpine-node:8  AS dependencies
+WORKDIR /root/app
 
-RUN npm install -g hue2mqtt.js
+#RUN apk add --no-cache  python build-base
+# install node packages
+RUN npm set progress=false && npm config set depth 0
+RUN npm install hue2mqtt.js --only=production 
+# copy production node_modules aside
+RUN cp -R node_modules prod_node_modules
 
-ENTRYPOINT [ "hue2mqtt" ]
+#
+# ---- Release ----
+FROM mhart/alpine-node:base-8
+WORKDIR /root/app
+# copy production node_modules
+COPY --from=dependencies /root/app/prod_node_modules ./node_modules
+# copy app sources
+VOLUME ["/root/.hue2mqtt"]
+CMD ./node_modules/hue2mqtt.js/index.js
