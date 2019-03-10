@@ -1,5 +1,6 @@
 ## Usage
 
+
 ### docker run
 
 	docker run -d -v ~/.hue2mqtt:/root/.hue2mqtt dersimn/hue2mqtt.js -b BRIDGE_IP -u mqtt://MQTT_IP -p 1 -d
